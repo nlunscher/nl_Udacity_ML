@@ -48,6 +48,7 @@ data_dict.pop("TOTAL", 0)
 ### can be any key in the person-level dictionary (salary, director_fees, etc.) 
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
+# feature_3 = "total_payments"
 poi  = "poi"
 features_list = [poi, feature_1, feature_2]
 data = featureFormat(data_dict, features_list )
@@ -64,6 +65,24 @@ plt.show()
 
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
+
+from sklearn import preprocessing
+min_max_scaler = preprocessing.MinMaxScaler()
+X_train_minmax = min_max_scaler.fit_transform(finance_features)
+print min_max_scaler.transform([[200000, 1000000]])
+
+from sklearn.cluster import KMeans
+# kmeans = KMeans(n_clusters=2, random_state=0)
+# kmeans.fit(finance_features)
+
+# pred = kmeans.predict(finance_features)
+
+f2s = []
+for d in data_dict:
+	if data_dict[d]["salary"] != "NaN":
+		f2s.append(data_dict[d]["salary"])
+
+print numpy.max(f2s), numpy.min(f2s)
 
 
 

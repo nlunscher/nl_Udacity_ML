@@ -27,5 +27,24 @@ labels, features = targetFeatureSplit(data)
 
 
 ### your code goes here 
+import numpy as np
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(
+	features, labels, test_size=0.3, random_state=42)
 
+from sklearn import tree
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(X_train, y_train)
+
+print "Test data", clf.score(X_test, y_test)
+
+pred = clf.predict(X_test)
+print pred
+print "Num POI", sum(pred)
+print "Total People", len(y_test)
+print y_test
+
+from sklearn.metrics import precision_score, recall_score
+print "Precision", precision_score(y_test, pred, average='binary')
+print "Recall", recall_score(y_test, pred, average='binary')
 
