@@ -87,7 +87,12 @@ features_train, features_test, labels_train, labels_test = \
 
 
 #### NL
-clf = clf.fit(features_train, labels_train)
+from sklearn import preprocessing
+min_max_scaler = preprocessing.MinMaxScaler()
+features_train_scaled = min_max_scaler.fit_transform(features_train)
+features_test_scaled = min_max_scaler.transform(features_test)
+
+clf = clf.fit(features_train_scaled, labels_train)
 
 means = clf.cv_results_['mean_test_score']
 stds = clf.cv_results_['std_test_score']
@@ -98,7 +103,7 @@ for mean, std, params in zip(means, stds, clf.cv_results_['params']):
 print "Best Parameters", clf.best_params_
 
 
-pred = clf.predict(features_test)
+pred = clf.predict(features_test_scaled)
 correct = 0
 for i in range(len(labels_test)):
 	if pred[i] == labels_test[i]:
